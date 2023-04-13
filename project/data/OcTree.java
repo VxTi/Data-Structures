@@ -6,6 +6,7 @@ package project.data;
  */
 
 import org.joml.Vector3d;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class OcTree {
      * i = 0     + 4(1)   + 2(1)                                                <br>
      * i = 6                         </tt>
      */
-    private Branch root = new Branch(this, null, 0);
+    private final Branch root = new Branch(this, null, 0);
     private double scale = 1.0d;
     private int depth = 1;
 

@@ -10,10 +10,10 @@ import java.util.List;
  */
 public abstract class Tree<T> {
 
-    private double scale;
-    private int nodeSize;
-    private int dimensions;
-    private int depth;
+    private final double scale;
+    private final int nodeSize;
+    private final int dimensions;
+    private final int depth;
     protected Branch<T> root = new Branch<>(this, null, 0);
 
     public Tree(int dimensions, int depth, double scale) {
@@ -60,20 +60,7 @@ public abstract class Tree<T> {
         for (i = 0; i < dimensions; i++) {
             vec.coordinates[i] /= scale;
             if (vec.coordinates[i] < 0 || vec.coordinates[i] > 1) {
-                System.err.print("Faulty given vector\n[");
-                int len = 1;
-                for (int n = 0; n < dimensions; n++) {
-                    String append = String.format("%.3f%s", vec.coordinates[n], (n + 1 < dimensions ? ", " : ""));
-                    System.err.printf(append);
-                    if (n + 1 < dimensions)
-                        len += append.length();
-                }
-                System.err.print("]\n");
-
-                for (; len > 0; len--)
-                    System.err.print(" ");
-                System.err.printf("^\nCoordinate must be within range 0 - %.2f\n", scale);
-                return null;
+                throw new IllegalArgumentException("Vector value " + vec.coordinates[i] + " out of bounds. Must be between 0 and " +  scale);
             }
         }
 
@@ -87,7 +74,7 @@ public abstract class Tree<T> {
             }
 
             if (leaf.branches == null)
-                leaf.branches = new Branch[nodeSize];
+                leaf.branches = (Branch<T>[]) new Branch[nodeSize];
 
             if (leaf.branches[j] == null)
                 leaf.branches[j] = new Branch<T>(this, leaf, i + 1);
